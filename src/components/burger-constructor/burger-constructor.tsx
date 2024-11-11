@@ -1,6 +1,9 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
+import { useSelector } from 'react-redux';
+import { clearOrderData, orderBurgerThunk, selectIsOrderInProgress, selectOrderResponse } from 'src/services/orderSlice';
+import { useDispatch } from 'src/services/store';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
@@ -10,15 +13,19 @@ export const BurgerConstructor: FC = () => {
     },
     ingredients: []
   };
+  const dispatch = useDispatch();
+  const orderRequest = useSelector(selectIsOrderInProgress);
 
-  const orderRequest = false;
-
-  const orderModalData = null;
+  const orderModalData = useSelector(selectOrderResponse);
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+    /** TODO: понять что сюда пихать */
+    dispatch(orderBurgerThunk([]));
   };
-  const closeOrderModal = () => {};
+  const closeOrderModal = () => {
+    dispatch(clearOrderData());
+  };
 
   const price = useMemo(
     () =>

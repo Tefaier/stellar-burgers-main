@@ -7,11 +7,15 @@ import {
 } from 'react-redux';
 
 import rootSliceReducer from './rootSlice';
+import orderSliceReducer from './orderSlice';
 
 const rootReducer = rootSliceReducer; // Заменить на импорт настоящего редьюсера
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    users: rootReducer,
+    orders: orderSliceReducer
+  },
   devTools: process.env.NODE_ENV !== 'production'
 });
 

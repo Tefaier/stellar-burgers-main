@@ -3,10 +3,17 @@ import '../../index.css';
 import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ProtectedRoute } from '../protectedRoute/protectedRoute';
 
 const App = () => {
+  const {state} = useLocation();
+  const navigate = useNavigate();
+  const pathParams = useParams();
+  const modalOnClose = () => {
+    navigate(state.modalBackgrund);
+  };
+
   return (
     <BrowserRouter >
       <div className={styles.app}>
@@ -21,11 +28,18 @@ const App = () => {
         <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>}></Route>
         <Route path='/profile/orders' element={<ProtectedRoute><ProfileOrders /></ProtectedRoute>}></Route>
       </Routes>
-      <Routes>
-        <Route path='/feed/:number' element={<Modal title='' onClose={()=>undefined}><OrderInfo></OrderInfo></Modal>}></Route>
-        <Route path='/ingredients/:id' element={<Modal title='' onClose={()=>undefined}><IngredientDetails></IngredientDetails></Modal>}></Route>
-        <Route path='/profile/orders/:number' element={<ProtectedRoute><Modal title='' onClose={()=>undefined}><OrderInfo></OrderInfo></Modal></ProtectedRoute>}></Route>
-      </Routes>
+      { state.modalBackgrund ? 
+        <Routes>
+          <Route path='/feed/:number' element={<Modal title={'Заказ номер ' + pathParams["number"]} onClose={modalOnClose}><OrderInfo></OrderInfo></Modal>}></Route>
+          <Route path='/ingredients/:id' element={<Modal title={'Ингредиент номер ' + pathParams["id"]} onClose={modalOnClose}><IngredientDetails></IngredientDetails></Modal>}></Route>
+          <Route path='/profile/orders/:number' element={<ProtectedRoute><Modal title={'Заказ номер ' + pathParams["number"]} onClose={modalOnClose}><OrderInfo></OrderInfo></Modal></ProtectedRoute>}></Route>
+        </Routes> :
+        <Routes>
+          <Route path='/feed/:number' element={<OrderInfo></OrderInfo>}></Route>
+          <Route path='/ingredients/:id' element={<IngredientDetails></IngredientDetails>}></Route>
+          <Route path='/profile/orders/:number' element={<ProtectedRoute><OrderInfo></OrderInfo></ProtectedRoute>}></Route>
+        </Routes>  
+      }
       </div>
     </BrowserRouter> 
     

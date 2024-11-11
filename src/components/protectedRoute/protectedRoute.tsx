@@ -8,7 +8,6 @@ type ProtectedRouteProps = {
 };
 
 export const ProtectedRoute = ({ onlyUnAuth, children }: ProtectedRouteProps) => {
-  const isAuthChecked = useSelector(selectIsLoading); 
   const user = useSelector(selectUser); 
   const location = useLocation();
 
@@ -17,8 +16,8 @@ export const ProtectedRoute = ({ onlyUnAuth, children }: ProtectedRouteProps) =>
   }
 
   if (onlyUnAuth && user) { 
-    return <Navigate replace to="/list" />;
+    return <Navigate replace to="/" />;
   }
 
-    return children ;
+    return children;
 }
