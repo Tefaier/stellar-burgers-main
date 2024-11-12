@@ -98,7 +98,7 @@ export const orderSlice = createSlice({
             return state.allIngredients || [];
         },
         selectFeeds: (state: orderState) => {
-            return state.allFeeds || [];
+            return state.allFeeds || {orders: [], total: 0, totalToday: 0};
         },
         selectUserOrders: (state: orderState) => {
             return state.allUserOrders || [];
