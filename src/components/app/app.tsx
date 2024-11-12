@@ -5,14 +5,24 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { BrowserRouter, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ProtectedRoute } from '../protectedRoute/protectedRoute';
+import { useEffect } from 'react';
+import { useDispatch } from 'src/services/store';
+import { updateFeedsThunk, updateIngredientsThunk, updateUserOrdersThunk } from 'src/services/orderSlice';
 
 const App = () => {
   const {state} = useLocation();
   const navigate = useNavigate();
   const pathParams = useParams();
+  const dispatch = useDispatch();
   const modalOnClose = () => {
     navigate(state.modalBackgrund);
   };
+
+  useEffect(() => {
+    dispatch(updateIngredientsThunk());
+    dispatch(updateFeedsThunk());
+    dispatch(updateUserOrdersThunk());
+  }, []);
 
   return (
     <BrowserRouter >

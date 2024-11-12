@@ -2,17 +2,18 @@ import { forwardRef, useMemo } from 'react';
 import { TIngredientsCategoryProps } from './type';
 import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
+import { useSelector } from 'react-redux';
+import { selectAllIngredients } from 'src/services/orderSlice';
 
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
 >(({ title, titleRef, ingredients }, ref) => {
   /** TODO: взять переменную из стора */
+  const ingreadients = useSelector(selectAllIngredients);
   const burgerConstructor = {
-    bun: {
-      _id: ''
-    },
-    ingredients: []
+    bun: ingreadients.find(ing => ing.type == 'bun'),
+    ingredients: ingreadients.filter(ing => ing.type != 'bun')
   };
 
   const ingredientsCounters = useMemo(() => {

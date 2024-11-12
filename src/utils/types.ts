@@ -1,7 +1,9 @@
+export type TTabMode = 'bun' | 'sauce' | 'main';
+
 export type TIngredient = {
   _id: string;
   name: string;
-  type: string;
+  type: TTabMode;
   proteins: number;
   fat: number;
   carbohydrates: number;
@@ -13,28 +15,26 @@ export type TIngredient = {
 };
 
 export type TConstructorIngredient = TIngredient & {
-  id: string;
+  id: string; // what the fuck is this id?
 };
 
 export type TOrder = {
   _id: string;
   status: string;
-  name: string;
+  name: string; // generated based on ingredients
   createdAt: string;
   updatedAt: string;
-  number: number;
+  number: number; // what is this
   ingredients: string[];
 };
 
 export type TOrdersData = {
   orders: TOrder[];
-  total: number;
-  totalToday: number;
+  total: number; // what is this
+  totalToday: number; // what is this as well
 };
 
 export type TUser = {
   email: string;
   name: string;
 };
-
-export type TTabMode = 'bun' | 'sauce' | 'main';

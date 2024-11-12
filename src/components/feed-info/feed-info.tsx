@@ -3,6 +3,8 @@ import { FC, useEffect, useMemo, useState } from 'react';
 import { TOrder } from '@utils-types';
 import { FeedInfoUI } from '../ui/feed-info';
 import { getFeedsApi, getOrdersApi } from '@api';
+import { useSelector } from 'react-redux';
+import { selectFeeds, selectUserOrders } from 'src/services/orderSlice';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>
   orders
@@ -11,18 +13,8 @@ const getOrders = (orders: TOrder[], status: string): number[] =>
     .slice(0, 20);
 
 export const FeedInfo: FC = () => {
-  /** TODO: взять переменные из стора (а надо ли, сейчас новые запросы постоянно) */
-  const [orders, setOrders] = useState<TOrder[]>([]);
-  const [feed, setFeed] = useState({});
-
-  useEffect(() => {
-    const promise1 = getOrdersApi().then(result => setOrders(result));
-    const promise2 = getFeedsApi().then(result => setFeed(result));
-    return () => {
-      Promise.reject(promise1);
-      Promise.reject(promise2);
-    };
-  }, [])
+  const orders = useSelector(selectUserOrders);
+  const feed = useSelector(selectFeeds);
 
   const readyOrders = getOrders(orders, 'done');
 

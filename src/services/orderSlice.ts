@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { forgotPasswordApi, getFeedsApi, getOrdersApi, getUserApi, loginUserApi, logoutApi, orderBurgerApi, registerUserApi, resetPasswordApi, TRegisterData, updateUserApi } from '../utils/burger-api';
-import { TConstructorIngredient, TOrder, TOrdersData, TUser } from '@utils-types';
+import { forgotPasswordApi, getFeedsApi, getIngredientsApi, getOrdersApi, getUserApi, loginUserApi, logoutApi, orderBurgerApi, registerUserApi, resetPasswordApi, TRegisterData, updateUserApi } from '../utils/burger-api';
+import { TConstructorIngredient, TIngredient, TOrder, TOrdersData, TUser } from '@utils-types';
 import { deleteCookie, getCookie, setCookie } from 'src/utils/cookie';
 
 
@@ -11,17 +11,39 @@ export const orderBurgerThunk = createAsyncThunk(
     (data: string[]) => orderBurgerApi(data)
 )
 
+export const updateIngredientsThunk = createAsyncThunk(
+    'orders/updateIngredients',
+    () => getIngredientsApi()
+)
+
+export const updateFeedsThunk = createAsyncThunk(
+    'orders/updateFeeds',
+    () => getFeedsApi()
+)
+
+export const updateUserOrdersThunk = createAsyncThunk(
+    'orders/updateUserOrders',
+    () => getOrdersApi()
+)
 
 export interface orderState {
     constructorItems: TConstructorIngredient[],
     orderRequest: boolean,
-    orderModalData: TOrder | null
+    orderModalData: TOrder | null,
+    allIngredients: TIngredient[] | null,
+    allFeeds: {orders: TOrder[], total: number, totalToday: number} | null,
+    allUserOrders: TOrder[] | null,
+    initialized: boolean
 }
 
 const initialState: orderState = {
     constructorItems: [],
     orderRequest: false,
-    orderModalData: null
+    orderModalData: null,
+    allIngredients: null,
+    allFeeds: null,
+    allUserOrders: null,
+    initialized: false
 }
 
 export const orderSlice = createSlice({
@@ -48,6 +70,18 @@ export const orderSlice = createSlice({
         builder.addCase(orderBurgerThunk.fulfilled, (state: orderState, {payload}) => {
             state.orderRequest = false;
             state.orderModalData = payload.order;
+            state.constructorItems = [];
+        });
+        builder.addCase(updateIngredientsThunk.fulfilled, (state: orderState, {payload}) => {
+            state.allIngredients = payload;
+            state.initialized = state.allFeeds !== null && state.allIngredients !== null;
+        });
+        builder.addCase(updateFeedsThunk.fulfilled, (state: orderState, {payload}) => {
+            state.allFeeds = payload;
+            state.initialized = state.allFeeds !== null && state.allIngredients !== null;
+        });
+        builder.addCase(updateUserOrdersThunk.fulfilled, (state: orderState, {payload}) => {
+            state.allUserOrders = payload;
         });
     },
     selectors: {
@@ -59,10 +93,22 @@ export const orderSlice = createSlice({
         },
         selectIngredients: (state: orderState) => {
             return state.constructorItems;
-        }
+        },
+        selectAllIngredients: (state: orderState) => {
+            return state.allIngredients || [];
+        },
+        selectFeeds: (state: orderState) => {
+            return state.allFeeds || [];
+        },
+        selectUserOrders: (state: orderState) => {
+            return state.allUserOrders || [];
+        },
+        selectIsInitialized: (state: orderState) => {
+            return state.initialized;
+        },
     }
 });
 
 export const { addConstructorItem, removeConstructorItem, clearOrderData } = orderSlice.actions;
-export const { selectIsOrderInProgress, selectOrderResponse, selectIngredients } = orderSlice.selectors;
+export const { selectIsOrderInProgress, selectOrderResponse, selectIngredients, selectAllIngredients, selectFeeds, selectUserOrders, selectIsInitialized } = orderSlice.selectors;
 export default orderSlice.reducer

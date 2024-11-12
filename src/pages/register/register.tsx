@@ -15,7 +15,7 @@ export const Register: FC = () => {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(registerUserThunk({name: userName, email, password})).unwrap().then(() => {
-      navigate(location.state.from || '/');
+      navigate(location.state.from || '/', { replace: true });
     });
   };
 

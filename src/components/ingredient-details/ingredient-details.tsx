@@ -1,21 +1,17 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { TIngredient } from '@utils-types';
 import { getIngredientsApi } from '@api';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectAllIngredients } from 'src/services/orderSlice';
 
 export const IngredientDetails: FC = () => {
   /** TODO: взять переменную из стора (только какую вообще?) */
-  const [ingredientData, setIngredientData] = useState<TIngredient|null>(null);
+  const ingreadients = useSelector(selectAllIngredients);
   const id = useParams()["id"];
-  
-  useEffect(() => {
-    const promise = getIngredientsApi().then(result => setIngredientData(result.find(elem => elem._id == id) || null));
-    return () => {
-      Promise.reject(promise);
-    };
-  }, []);
+  const ingredientData = useMemo(() => ingreadients.find(ing => ing._id == id), [ingreadients, id]);
 
   if (!ingredientData) {
     return <Preloader />;

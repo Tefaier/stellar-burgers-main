@@ -2,14 +2,15 @@ import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
 import { TOrder } from '@utils-types';
 import { FC } from 'react';
+import { useSelector } from 'react-redux';
+import { selectFeeds, selectIsInitialized } from 'src/services/orderSlice';
 
 export const Feed: FC = () => {
-  /** TODO: взять переменную из стора */
-  const orders: TOrder[] = [];
+  const orders: TOrder[] = useSelector(selectFeeds);
 
-  if (!orders.length) {
+  if (!useSelector(selectIsInitialized)) {
     return <Preloader />;
   }
 
-  <FeedUI orders={orders} handleGetFeeds={() => {}} />;
+  return (<FeedUI orders={orders} handleGetFeeds={() => {}} />);
 };
