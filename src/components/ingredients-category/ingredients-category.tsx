@@ -2,8 +2,11 @@ import { forwardRef, useMemo } from 'react';
 import { TIngredientsCategoryProps } from './type';
 import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
-import { useSelector } from 'react-redux';
-import { selectAllIngredients, selectIngredients } from 'src/services/orderSlice';
+import { useSelector } from '../../services/store';
+import {
+  selectAllIngredients,
+  selectIngredients
+} from '../../services/selectors';
 
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
@@ -12,8 +15,8 @@ export const IngredientsCategory = forwardRef<
   /** TODO: взять переменную из стора */
   const chosenIngredients = useSelector(selectIngredients);
   const burgerConstructor = {
-    bun: chosenIngredients.find(ing => ing.type == 'bun'),
-    ingredients: chosenIngredients.filter(ing => ing.type != 'bun')
+    bun: chosenIngredients.find((ing) => ing.type == 'bun'),
+    ingredients: chosenIngredients.filter((ing) => ing.type != 'bun')
   };
 
   const ingredientsCounters = useMemo(() => {

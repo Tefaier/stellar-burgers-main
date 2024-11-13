@@ -2,8 +2,11 @@ import { FC, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
-import { useSelector } from 'react-redux';
-import { selectAllIngredients, selectOrderResponse } from 'src/services/orderSlice';
+import { useSelector } from '../../services/store';
+import {
+  selectAllIngredients,
+  selectOrderResponse
+} from '../../services/selectors';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */

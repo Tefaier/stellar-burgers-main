@@ -4,8 +4,11 @@ import { useLocation } from 'react-router-dom';
 import { OrderCardProps } from './type';
 import { TIngredient } from '@utils-types';
 import { OrderCardUI } from '../ui/order-card';
-import { useSelector } from 'react-redux';
-import { selectAllIngredients, selectIngredients } from 'src/services/orderSlice';
+import { useSelector } from '../../services/store';
+import {
+  selectAllIngredients,
+  selectIngredients
+} from '../../services/selectors';
 
 const maxIngredients = 6;
 

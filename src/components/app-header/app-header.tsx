@@ -1,6 +1,9 @@
 import { FC } from 'react';
 import { AppHeaderUI } from '@ui';
-import { useSelector } from 'react-redux';
-import { selectUser } from 'src/services/rootSlice';
+import { selectUser } from '../../services/selectors';
+import { useSelector } from '../../services/store';
 
-export const AppHeader: FC = () => <AppHeaderUI userName={useSelector(selectUser)?.name || ''} />;
+export const AppHeader: FC = () => {
+  const user = useSelector(selectUser);
+  return <AppHeaderUI userName={user?.name || ''} />;
+};

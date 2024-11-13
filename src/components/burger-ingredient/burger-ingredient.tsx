@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom';
 
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
-import { useDispatch } from 'src/services/store';
-import { addConstructorItem } from 'src/services/orderSlice';
+import { useDispatch } from '../../services/store';
+import { addConstructorItem } from '../../services/orderSlice';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {
@@ -13,7 +13,7 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
 
     const handleAdd = () => {
       /** TODO: что за еще одно поле id такое и что вообще делать тут */
-      dispatch(addConstructorItem({...ingredient, id: count.toString()}));
+      dispatch(addConstructorItem({ ...ingredient, id: count.toString() }));
     };
 
     return (

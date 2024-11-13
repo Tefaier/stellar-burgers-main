@@ -3,8 +3,8 @@ import { FC, useEffect, useMemo, useState } from 'react';
 import { TOrder } from '@utils-types';
 import { FeedInfoUI } from '../ui/feed-info';
 import { getFeedsApi, getOrdersApi } from '@api';
-import { useSelector } from 'react-redux';
-import { selectFeeds, selectUserOrders } from 'src/services/orderSlice';
+import { useSelector } from '../../services/store';
+import { selectFeeds, selectUserOrders } from '../../services/selectors';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>
   orders

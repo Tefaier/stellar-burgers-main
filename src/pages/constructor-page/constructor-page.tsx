@@ -1,19 +1,18 @@
-
 import styles from './constructor-page.module.css';
 
 import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
-import { FC } from 'react';
-import { selectIsInitialized } from 'src/services/orderSlice';
-import { useSelector } from 'react-redux';
+import { FC, useEffect } from 'react';
+import { selectIsInitialized } from '../../services/selectors';
+import { useSelector } from '../../services/store';
 
 export const ConstructorPage: FC = () => {
-  const isIngredientsLoading = useSelector(selectIsInitialized);
+  const isIngredientsLoaded = useSelector(selectIsInitialized);
 
   return (
     <>
-      {isIngredientsLoading ? (
+      {!isIngredientsLoaded ? (
         <Preloader />
       ) : (
         <main className={styles.containerMain}>

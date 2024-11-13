@@ -1,8 +1,8 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
-import { useDispatch } from 'src/services/store';
+import { useDispatch } from '../../services/store';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { registerUserThunk } from 'src/services/rootSlice';
+import { registerUserThunk } from '../../services/rootSlice';
 
 export const Register: FC = () => {
   const [userName, setUserName] = useState('');
@@ -14,9 +14,11 @@ export const Register: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(registerUserThunk({name: userName, email, password})).unwrap().then(() => {
-      navigate(location.state.from || '/', { replace: true });
-    });
+    dispatch(registerUserThunk({ name: userName, email, password }))
+      .unwrap()
+      .then(() => {
+        navigate(location.state.from || '/', { replace: true });
+      });
   };
 
   return (
