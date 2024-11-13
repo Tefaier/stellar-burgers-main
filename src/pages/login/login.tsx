@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,12 +18,14 @@ export const Login: FC = () => {
       .unwrap()
       .then(() => {
         navigate(location.state.from || '/', { replace: true });
+      }).catch((err) => {
+        setError(err.message);
       });
   };
 
   return (
     <LoginUI
-      errorText=''
+      errorText={error}
       email={email}
       setEmail={setEmail}
       password={password}

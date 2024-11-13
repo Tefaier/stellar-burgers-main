@@ -6,9 +6,11 @@ import { clearOrderData, orderBurgerThunk } from '../../services/orderSlice';
 import {
   selectIngredients,
   selectIsOrderInProgress,
-  selectOrderResponse
+  selectOrderResponse,
+  selectUser
 } from '../../services/selectors';
 import { useDispatch } from '../../services/store';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
@@ -21,10 +23,16 @@ export const BurgerConstructor: FC = () => {
   const orderRequest = useSelector(selectIsOrderInProgress);
 
   const orderModalData = useSelector(selectOrderResponse);
+  const user = useSelector(selectUser);
+  const navigator = useNavigate();
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
-    /** TODO: понять что сюда пихать */
+    
+    if (!user) {
+      navigator('/login', { state: { from: "/" } });
+      return;
+    }
     dispatch(
       orderBurgerThunk(constructorItems.ingredients.map((ing) => ing._id))
     );

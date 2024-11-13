@@ -8,6 +8,7 @@ export const Register: FC = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,12 +19,14 @@ export const Register: FC = () => {
       .unwrap()
       .then(() => {
         navigate(location.state.from || '/', { replace: true });
+      }).catch((err) => {
+        setError(err.message);
       });
   };
 
   return (
     <RegisterUI
-      errorText=''
+      errorText={error}
       email={email}
       userName={userName}
       password={password}

@@ -18,6 +18,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useMatch,
   useNavigate,
   useParams
 } from 'react-router-dom';
@@ -36,11 +37,13 @@ import { getUserThunk } from '../../services/rootSlice';
 const App = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const pathParams = useParams();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const match1 = useMatch("/feed/:number");
+  const match2 = useMatch("/ingredients/:id");
+  const match3 = useMatch("/profile/orders/:number");
   const modalOnClose = () => {
-    navigate(state?.modalBackgrund || '/');
+    navigate(state?.background || '/');
   };
 
   useEffect(() => {
@@ -60,12 +63,18 @@ const App = () => {
       <AppHeader />
       <Routes>
         <Route path='*' element={<NotFound404 />} />
+        <Route
+            path='/feed/:number'
+          />
+          <Route path='/ingredients/:id'
+          />
+          <Route path='/profile/orders/:number'/>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route
           path='/login'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Login />
             </ProtectedRoute>
           }
@@ -73,8 +82,16 @@ const App = () => {
         <Route
           path='/register'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/forgot-password'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ForgotPassword />
             </ProtectedRoute>
           }
         />
@@ -103,13 +120,13 @@ const App = () => {
           }
         />
       </Routes>
-      {state?.modalBackgrund ? (
+      {state?.background ? (
         <Routes>
           <Route
             path='/feed/:number'
             element={
               <Modal
-                title={'Заказ номер ' + pathParams.number}
+                title={'Заказ номер ' + match1?.params.number}
                 onClose={modalOnClose}
               >
                 <OrderInfo />
@@ -120,7 +137,7 @@ const App = () => {
             path='/ingredients/:id'
             element={
               <Modal
-                title={'Ингредиент номер ' + pathParams.id}
+                title={'Ингредиент номер ' + match2?.params.id}
                 onClose={modalOnClose}
               >
                 <IngredientDetails />
@@ -132,7 +149,7 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Modal
-                  title={'Заказ номер ' + pathParams.number}
+                  title={'Заказ номер ' + match3?.params.number}
                   onClose={modalOnClose}
                 >
                   <OrderInfo />
