@@ -39,9 +39,9 @@ const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const match1 = useMatch("/feed/:number");
-  const match2 = useMatch("/ingredients/:id");
-  const match3 = useMatch("/profile/orders/:number");
+  const match1 = useMatch('/feed/:number');
+  const match2 = useMatch('/ingredients/:id');
+  const match3 = useMatch('/profile/orders/:number');
   const modalOnClose = () => {
     navigate(state?.background || '/');
   };
@@ -63,12 +63,9 @@ const App = () => {
       <AppHeader />
       <Routes>
         <Route path='*' element={<NotFound404 />} />
-        <Route
-            path='/feed/:number'
-          />
-          <Route path='/ingredients/:id'
-          />
-          <Route path='/profile/orders/:number'/>
+        <Route path='/feed/:number' />
+        <Route path='/ingredients/:id' />
+        <Route path='/profile/orders/:number' />
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route

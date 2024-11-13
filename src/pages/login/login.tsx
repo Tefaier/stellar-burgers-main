@@ -18,7 +18,8 @@ export const Login: FC = () => {
       .unwrap()
       .then(() => {
         navigate(location.state.from || '/', { replace: true });
-      }).catch((err) => {
+      })
+      .catch((err) => {
         setError(err.message);
       });
   };

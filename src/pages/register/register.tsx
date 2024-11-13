@@ -19,7 +19,8 @@ export const Register: FC = () => {
       .unwrap()
       .then(() => {
         navigate(location.state.from || '/', { replace: true });
-      }).catch((err) => {
+      })
+      .catch((err) => {
         setError(err.message);
       });
   };

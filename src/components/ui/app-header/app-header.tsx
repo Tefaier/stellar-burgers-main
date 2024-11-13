@@ -10,30 +10,36 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
-  <header className={styles.header}>
-    <nav className={`${styles.menu} p-4`}>
-      <div className={styles.menu_part_left}>
-        <div onClick={() => navigate('/')}>
-          <BurgerIcon type={'primary'} />
-          <p className='text text_type_main-default ml-2 mr-10'>Конструктор</p>
+    <header className={styles.header}>
+      <nav className={`${styles.menu} p-4`}>
+        <div className={styles.menu_part_left}>
+          <div onClick={() => navigate('/')}>
+            <BurgerIcon type={'primary'} />
+            <p className='text text_type_main-default ml-2 mr-10'>
+              Конструктор
+            </p>
+          </div>
+          <div onClick={() => navigate('/feed')}>
+            <ListIcon type={'primary'} />
+            <p className='text text_type_main-default ml-2'>Лента заказов</p>
+          </div>
         </div>
-        <div onClick={() => navigate('/feed')}>
-          <ListIcon type={'primary'} />
-          <p className='text text_type_main-default ml-2'>Лента заказов</p>
+        <div className={styles.logo} onClick={() => navigate('/')}>
+          <Logo className='' />
         </div>
-      </div>
-      <div className={styles.logo} onClick={() => navigate('/')}>
-        <Logo className='' />
-      </div>
-      <div className={styles.link_position_last} onClick={() => navigate('/profile')}>
-        <ProfileIcon type={'primary'} />
-        <p className='text text_type_main-default ml-2'>
-          {userName || 'Личный кабинет'}
-        </p>
-      </div>
-    </nav>
-  </header>
-)};
+        <div
+          className={styles.link_position_last}
+          onClick={() => navigate('/profile')}
+        >
+          <ProfileIcon type={'primary'} />
+          <p className='text text_type_main-default ml-2'>
+            {userName || 'Личный кабинет'}
+          </p>
+        </div>
+      </nav>
+    </header>
+  );
+};

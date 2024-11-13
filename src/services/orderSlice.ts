@@ -138,18 +138,12 @@ export const orderSlice = createSlice({
         state.initialized = true;
       }
     );
-    builder.addCase(
-      updateFeedsThunk.pending,
-      (state: orderState) => {
-        state.initialized = false;
-      }
-    );
-    builder.addCase(
-      updateFeedsThunk.rejected,
-      (state: orderState) => {
-        state.initialized = true;
-      }
-    );
+    builder.addCase(updateFeedsThunk.pending, (state: orderState) => {
+      state.initialized = false;
+    });
+    builder.addCase(updateFeedsThunk.rejected, (state: orderState) => {
+      state.initialized = true;
+    });
     builder.addCase(
       updateFeedsThunk.fulfilled,
       (state: orderState, { payload }) => {
