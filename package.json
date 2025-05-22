@@ -1,7 +1,7 @@
 {
   "name": "react-canonical",
   "version": "0.1.0",
-  "homepage": "https://Tefaier.github.io/web-larek-frontend",
+  "homepage": "https://Tefaier.github.io/stellar-burgers-main",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
