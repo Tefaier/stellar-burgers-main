@@ -66,6 +66,7 @@ const App = () => {
         <Route path='/feed/:number' />
         <Route path='/ingredients/:id' />
         <Route path='/profile/orders/:number' />
+        <Route path='/stellar-burgers-main' element={<ConstructorPage />} />
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route
